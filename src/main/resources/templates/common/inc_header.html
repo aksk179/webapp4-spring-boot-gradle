@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>get_list</title>
+  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+  <script src="/js/jquery-3.4.1.js"></script>
+  <script src="/bootstrap/js/bootstrap.bundle.js"></script>
+</head>
+<body>
+<nav class="navbar  sticky-top navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">My Spring Boot</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-expanded="false">
+          Sample예제
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/server_time">Get Sever Time</a>
+          <a class="dropdown-item" href="/get_list">Get List</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="/get_list_object">Get List Object</a>
+        </div>
+      </li>
+
+      <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-expanded="false">
+          기준정보관리(관리자)
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/admin/member_list">회원 관리</a>
+          <a class="dropdown-item" href="/role/role_search.view">권한 관리</a>
+          <a class="dropdown-item" href="/dept/dept_search.view">부서 관리</a>
+          <a class="dropdown-item" href="/admin/member_list">게시판 관리</a>
+        </div>
+      </li>
+
+      <li sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-expanded="false">
+          회원관리
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/user/update_for_user">회원 정보 수정</a>
+          <a class="dropdown-item" href="/user/update_for_user">회원 탈퇴</a>
+        </div>
+      </li>
+
+    </ul>
+
+    <ul class="navbar-nav navbar-right">
+      <li class="nav-item dropdown">
+        <label sec:authentication="name">  </label>
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown4" role="button" data-toggle="dropdown" aria-expanded="false">
+          My Page
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/user/update_for_user">회원 정보 수정</a>
+          <a class="dropdown-item" href="/user/update_for_user">회원 탈퇴</a>
+        </div>
+      </li>
+    </ul>
+
+
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      <a sec:authorize="isAnonymous()" href="/login/login" class="btn btn-success pull-right"> 로그인 </a>
+      <a sec:authorize="isAuthenticated()" href="/logout" class="btn btn-success pull-right"> 로그아웃 </a>
+    </form>
+  </div>
+</nav>

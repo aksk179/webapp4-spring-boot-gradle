@@ -1,0 +1,13 @@
+<th:block th:replace="/common/inc_header"></th:block>
+
+    <div class="container">
+        Server Time is <span th:text="${serverTime}"></span><br>
+
+        <table class="table table-bordered">
+            <tr th:each="item : ${list}">
+                <td th:text="${item}"></td>
+            </tr>
+        </table>
+    </div>
+
+<th:block th:replace="/common/inc_footer"></th:block>

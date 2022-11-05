@@ -1,0 +1,76 @@
+<th:block th:replace="/common/inc_header"></th:block>
+
+
+<div class="container-fluid">
+    <form action="/dept/dept_search.formdata" method="post" id="searchForm" name="searchForm">
+        <table class="table">
+            <tr align="center">
+                <td> 부서명 </td>
+                <td> <input type="text" name="deptNm" id="deptNm"> </td>
+                <td> <button type="submit" class="btn-primary"> 검색 </button> </td>
+            </tr>
+        </table>
+    </form>
+
+    <hr>
+    <a class="btn btn-primary" href="/dept/dept_insert.view"> 등록 </a>
+    <table class="table table-hover table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th> 부서코드 </th>
+            <th> 부서명 </th>
+            <th> 부서설명 </th>
+            <th> 상위부서 </th>
+            <th> 사용여부 </th>
+            <th> 생성일 </th>
+            <th> 작업 </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${list}"> <!--item은 roleMaster-->
+            <td th:text="${item.deptId}"></td>
+            <td th:text="${item.deptNm}"></td>
+            <td th:text="${item.deptDesc}"></td>
+            <td th:text="${item.upDeptId}"></td>
+            <td th:text="${item.useYn}"></td>
+            <td th:text="${item.crDt}"></td>
+            <td>
+                <a th:href="@{/dept/dept_update.view(deptId=${item.deptId})}"> [수정] </a>
+                <button th:onclick="deleteDept([[${item.deptId}]])"> [삭제] </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function deleteDept(deptId) {
+        if (!confirm("부서ID "+ deptId +" 를 삭제하시겠습니까?")) {
+            return;
+        }
+
+        var param = {};
+        param.deptId=deptId;
+
+        $.ajax({
+            type: "POST",
+            url: "/dept/dept_delete.json",
+            data: JSON.stringify(param),
+            contentType: "application/json",
+            dataType: 'json',
+            async: false,
+            success: function(data) {
+                if (data.result == "OK") {
+                    document.searchForm.submit();
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error: function(req, status, error){
+                alert("Connection Fail, status=" + status);
+            }
+        });
+    }
+</script>
+
+<th:block th:replace="/common/inc_footer"></th:block>

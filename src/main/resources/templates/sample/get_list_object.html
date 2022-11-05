@@ -1,0 +1,77 @@
+<th:block th:replace="/common/inc_header"></th:block>
+
+    <div class="container">
+        Server Time is <span th:text="${serverTime}"></span><br>
+
+        <form action="/search_member_list.formdata" method="get" id="searchForm" name="searchForm">
+            <table class="table">
+                <tr align="center">
+                    <td> 이름 </td>
+                    <td> <input type="text" name="name" id="name"> </td>
+                    <td> 주소 </td>
+                    <td> <input type="text" name="address" id="address"> </td>
+                    <td> <button type="submit" class="btn-primary"> 검색 </button> </td>
+                </tr>
+            </table>
+        </form>
+
+        <hr>
+        <a class="btn btn-primary" href="/insert_sample"> 등록 </a>
+        <table class="table table-hover table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th> 사번 </th>
+                    <th> 이름 </th>
+                    <th> 나이 </th>
+                    <th> 전화번호 </th>
+                    <th> 주소 </th>
+                    <th> 작업 </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${list}">
+                    <td th:text="${item.eno}"></td>
+                    <td th:text="${item.name}"></td>
+                    <td th:text="${item.age}"></td>
+                    <td th:text="${item.cellPhone}"></td>
+                    <td th:text="${item.address}"></td>
+                    <td>
+                        <a th:href="@{/update_sample(eno=${item.eno})}"> [수정] </a>
+                        <span style="cursor:hand;" th:onclick="'javascript:delete_sample('+ ${item.eno} + ');'" th:text="[삭제]"> </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script>
+    function delete_sample(eno) {
+        var param = {};
+        param.eno=eno;
+
+        $.ajax({
+            type: "POST",
+            url: "/delete_sample_ajax",
+            data: JSON.stringify(param),
+            contentType: "application/json",
+            dataType: 'json',
+            async: false,
+            success: function(data) {
+                if (data.result == "OK") {
+                    window.location = '/get_list_object?name=&address=';
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error: function(req, status, error){
+                alert("Connection Fail, status=" + status);
+            }
+        });
+
+    }
+
+    $(document).ready(function(){
+        // document.searchForm.submit(); // Submits the form without the button
+    });
+</script>
+
+<th:block th:replace="/common/inc_footer"></th:block>

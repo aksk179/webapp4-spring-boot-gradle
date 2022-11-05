@@ -1,0 +1,62 @@
+<th:block th:replace="/common/inc_header"></th:block>
+
+<div class="container-fluid">
+    <form action="/admin/search_member_list.formdata" method="post" id="searchForm" name="searchForm">
+        <table class="table">
+            <tr align="center">
+                <td> 이름 </td>
+                <td> <input type="text" name="userName" id="userName"> </td>
+                <td> 권한 </td>
+                <td> <input type="text" name="roleId" id="roleId"> </td>
+                <td> <button type="submit" class="btn-primary"> 검색 </button> </td>
+            </tr>
+        </table>
+    </form>
+
+    <hr>
+    <a class="btn btn-primary" href="/admin/insert_member_for_admin"> 등록 </a>
+    <table class="table table-hover table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th> 회원ID </th>
+            <th> 회원명 </th>
+            <th> 휴대폰 </th>
+            <th> 이메일 </th>
+            <th> 소속부서 </th>
+            <th> 권한 </th>
+            <th> 사용여부 </th>
+            <th> 등록일시 </th>
+            <th> 작업 </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${list}">
+            <td th:text="${item.userId}"></td>
+            <td th:text="${item.userName}"></td>
+            <td th:text="${item.cellPhone}"></td>
+            <td th:text="${item.emailId}"></td>
+            <td th:text="${item.deptMaster.deptNm}"></td>
+            <td th:text="${item.roleMaster.roleNm}"></td>
+            <td th:text="${item.useYn}"></td>
+            <td th:text="${item.regiDt}"></td>
+            <td>
+                <a th:href="@{/admin/update_member.view(userId=${item.userId})}"> [수정] </a>
+                <a th:href="@{/admin/delete_member.formdata(userId=${item.userId})}"> [삭제] </a>
+                <a th:href="@{/admin/approve_member.formdata(userId=${item.userId})}"> [승인] </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function delete_member(userId) {
+        var param = {};
+        param.userId=userId;
+
+
+
+    }
+</script>
+
+<th:block th:replace="/common/inc_footer"></th:block>

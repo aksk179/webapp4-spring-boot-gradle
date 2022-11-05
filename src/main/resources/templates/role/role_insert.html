@@ -1,0 +1,43 @@
+<th:block th:replace="/common/inc_header"></th:block>
+
+<div class="container">
+    <h1>권한 등록</h1>
+    <hr>
+    <form action="/role/role_insert.formdata" method="post">
+        <table class="table">
+            <tr>
+                <td> 권한코드 </td>
+                <td colspan="3"> <input type="text" name="roleId" id="roleId" th:value="${roleMaster.roleId}"> </td>
+            </tr>
+            <tr>
+                <td> 권한명 </td>
+                <td colspan="3"> <input type="text" name="roleNm" id="roleNm" th:value="${roleMaster.roleNm}"> </td>
+            </tr>
+            <tr>
+                <td> 권한설명 </td>
+                <td colspan="3"> <input type="text" name="roleDesc" id="roleDesc" th:value="${roleMaster.roleDesc}"> </td>
+            </tr>
+            <tr>
+                <td> 사용여부 </td>
+                <td>
+                    <input type="radio" name="useYn" value="Y">사용
+                    <input type="radio" name="useYn" value="N">중지
+                </td>
+            </tr>
+        </table>
+        <button type="submit" class="btn btn-primary"> 등록 </button> <button type="reset" class="btn btn-secondary"> 취소 </button>
+    </form>
+</div>
+
+<script th:inline="javascript">
+    var param = [[${roleMaster.useYn}]];
+    if (param=="Y") {
+        $("input:radio[name='useYn']:input[value='Y']").attr("checked", true);
+    } else if(param=="N") {
+        $("input:radio[name='useYn']:input[value='N']").attr("checked", true);
+    } else {
+        $("input:radio[name='useYn']:input[value='Y']").attr("checked", true);
+    }
+</script>
+
+<th:block th:replace="/common/inc_footer"></th:block>

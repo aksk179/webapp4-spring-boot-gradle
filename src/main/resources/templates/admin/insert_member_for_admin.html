@@ -1,0 +1,65 @@
+<th:block th:replace="/common/inc_header"></th:block>
+
+<div class="container">
+    <h1>회원 등록</h1>
+    <hr>
+    <form action="/admin/insert_member_for_admin.formdata" method="post">
+        <table class="table">
+            <tr>
+                <td> ID </td>
+                <td colspan="3"> <input type="text" name="userId" id="userId" th:value="${member.userId}"> </td>
+            </tr>
+            <tr>
+                <td> 이름 </td>
+                <td colspan="3"> <input type="text" name="userName" id="userName" th:value="${member.userName}"> </td>
+            </tr>
+            <tr>
+                <td> 비밀번호 </td>
+                <td colspan="3"> <input type="text" name="userPwd" id="userPwd" th:value="${member.userPwd}"> </td>
+            </tr>
+            <tr>
+                <td> 휴대폰 </td>
+                <td> <input type="text" name="cellPhone" id="cellPhone" th:value="${member.cellPhone}"> </td>
+                <td> 사용여부 </td>
+                <td>
+                    <input type="radio" name="useYn" value="Y">사용
+                    <input type="radio" name="useYn" value="N">중지
+                </td>
+            </tr>
+            <tr>
+                <td> 주소 </td>
+                <td colspan="3"> <input type="text" name="address" id="address" size="100" th:value="${member.address}"> </td>
+            </tr>
+            <tr>
+                <td> 부서 </td>
+                <td colspan="3">
+                    <select name="deptId" id="deptId">
+                        <option th:each="dept : ${deptList}" th:value="${dept.deptId}" th:text="${dept.deptNm}" th:selected="${dept.deptId} == ${member.deptId}"> </option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td> 권한 </td>
+                <td colspan="3">
+                    <select name="roleId" id="roleId">
+                        <option th:each="role : ${roleList}" th:value="${role.roleId}" th:text="${role.roleNm}" th:selected="${role.roleId} == ${member.roleId}"> </option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <button type="submit" class="btn btn-primary"> 등록 </button> <button type="reset" class="btn btn-secondary"> 취소 </button>
+    </form>
+</div>
+
+<script th:inline="javascript">
+    var param = [[${member.useYn}]];
+    if (param=="Y") {
+        $("input:radio[name='useYn']:input[value='Y']").attr("checked", true);
+    } else if(param=="N") {
+        $("input:radio[name='useYn']:input[value='N']").attr("checked", true);
+    } else {
+        $("input:radio[name='useYn']:input[value='Y']").attr("checked", true);
+    }
+</script>
+
+<th:block th:replace="/common/inc_footer"></th:block>

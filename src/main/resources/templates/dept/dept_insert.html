@@ -1,0 +1,47 @@
+<th:block th:replace="/common/inc_header"></th:block>
+
+<div class="container">
+    <h1>부서 등록</h1>
+    <hr>
+    <form action="/dept/dept_insert.formdata" method="post">
+        <table class="table">
+            <tr>
+                <td> 부서코드 </td>
+                <td colspan="3"> <input type="text" name="deptId" id="deptId" th:value="${deptMaster.deptId}"> </td>
+            </tr>
+            <tr>
+                <td> 부서명 </td>
+                <td colspan="3"> <input type="text" name="deptNm" id="deptNm" th:value="${deptMaster.deptNm}"> </td>
+            </tr>
+            <tr>
+                <td> 부서설명 </td>
+                <td colspan="3"> <input type="text" name="deptDesc" id="deptDesc" th:value="${deptMaster.deptDesc}"> </td>
+            </tr>
+            <tr>
+                <td> 상위부서 </td>
+                <td colspan="3"> <input type="text" name="upDeptId" id="upDeptId" th:value="${deptMaster.upDeptId}"> </td>
+            </tr>
+            <tr>
+                <td> 사용여부 </td>
+                <td>
+                    <input type="radio" name="useYn" value="Y">사용
+                    <input type="radio" name="useYn" value="N">중지
+                </td>
+            </tr>
+        </table>
+        <button type="submit" class="btn btn-primary"> 등록 </button> <button type="reset" class="btn btn-secondary"> 취소 </button>
+    </form>
+</div>
+
+<script th:inline="javascript">
+    var param = [[${deptMaster.useYn}]];
+    if (param=="Y") {
+        $("input:radio[name='useYn']:input[value='Y']").attr("checked", true);
+    } else if(param=="N") {
+        $("input:radio[name='useYn']:input[value='N']").attr("checked", true);
+    } else {
+        $("input:radio[name='useYn']:input[value='Y']").attr("checked", true);
+    }
+</script>
+
+<th:block th:replace="/common/inc_footer"></th:block>

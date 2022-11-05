@@ -1,0 +1,35 @@
+<th:block th:replace="/common/inc_header"></th:block>
+
+    <div class="container">
+        Server Time is <span th:text="${serverTime}"></span><br>
+        <hr>
+
+        <form action="/insert_sample.formdata" method="post">
+            <table class="table">
+                <tr>
+                    <td> 사번 </td>
+                    <td> <input type="text" name="eno" id="eno" th:value="${sample.eno}"> </td>
+                </tr>
+                <tr>
+                    <td> 이름 </td>
+                    <td> <input type="text" name="name" id="name" th:value="${sample.name}"> </td>
+                </tr>
+                <tr>
+                    <td> 나이 </td>
+                    <td> <input type="text" name="age" id="age" th:value="${sample.age}"> </td>
+                </tr>
+                <tr>
+                    <td> 전화번호 </td>
+                    <td> <input type="text" name="cellPhone" id="cellPhone" th:value="${sample.cellPhone}"> </td>
+                </tr>
+                <tr>
+                    <td> 주소 </td>
+                    <td> <input type="text" name="address" id="address" th:value="${sample.address}"> </td>
+                </tr>
+            </table>
+            <hr>
+                <button type="submit" class="btn btn-primary"> 등록 </button> <button type="reset" class="btn btn-secondary"> 취소 </button>
+        </form>
+    </div>
+
+<th:block th:replace="/common/inc_footer"></th:block>

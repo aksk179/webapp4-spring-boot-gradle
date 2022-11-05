@@ -1,0 +1,78 @@
+<th:block th:replace="/common/inc_header"></th:block>
+
+
+<div class="container-fluid">
+    <form action="/role/role_search.formdata" method="post" id="searchForm" name="searchForm">
+        <table class="table">
+            <tr align="center">
+                <td> 권한 코드 </td>
+                <td> <input type="text" name="roleId" id="roleId"> </td>
+                <td> 권한명 </td>
+                <td> <input type="text" name="roleNm" id="roleNm"> </td>
+                <td> 사용여부 </td>
+                <td> <input type="text" name="useYn" id="useYn"> </td>
+                <td> <button type="submit" class="btn-primary"> 검색 </button> </td>
+            </tr>
+        </table>
+    </form>
+
+    <hr>
+    <a class="btn btn-primary" href="/role/role_insert.view"> 등록 </a>
+    <table class="table table-hover table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th> 권한코드 </th>
+            <th> 권한명 </th>
+            <th> 권한설명 </th>
+            <th> 사용여부 </th>
+            <th> 생성일 </th>
+            <th> 작업 </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${list}"> <!--item은 roleMaster-->
+            <td th:text="${item.roleId}"></td>
+            <td th:text="${item.roleNm}"></td>
+            <td th:text="${item.roleDesc}"></td>
+            <td th:text="${item.useYn}"></td>
+            <td th:text="${item.crDt}"></td>
+            <td>
+                <a th:href="@{/role/role_update.view(roleId=${item.roleId})}"> [수정] </a>
+                <button th:onclick="deleteRole([[${item.roleId}]])"> [삭제] </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function deleteRole(roleId) {
+        if (!confirm("권한ID "+ roleId +" 를 삭제하시겠습니까?")) {
+            return;
+        }
+
+        var param = {};
+        param.roleId=roleId;
+
+        $.ajax({
+            type: "POST",
+            url: "/role/role_delete.json",
+            data: JSON.stringify(param),
+            contentType: "application/json",
+            dataType: 'json',
+            async: false,
+            success: function(data) {
+                if (data.result == "OK") {
+                    document.searchForm.submit();
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error: function(req, status, error){
+                alert("Connection Fail, status=" + status);
+            }
+        });
+    }
+</script>
+
+<th:block th:replace="/common/inc_footer"></th:block>
